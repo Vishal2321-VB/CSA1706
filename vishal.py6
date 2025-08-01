@@ -1,0 +1,32 @@
+def vacuum_cleaner(location, status):
+    actions = []
+    
+    if status == "Dirty":
+        actions.append(f"Clean at {location}")
+        status = "Clean"
+    
+    # Move to the next room
+    if location == "A":
+        actions.append("Move Right to B")
+        location = "B"
+    else:
+        actions.append("Move Left to A")
+        location = "A"
+
+    return location, status, actions
+environment = {
+    "A": "Dirty",
+    "B": "Dirty"
+}
+vacuum_location = "A"
+print("Initial Environment:", environment)
+print("Starting in Room", vacuum_location)
+
+for _ in range(2):
+    current_status = environment[vacuum_location]
+    vacuum_location, new_status, actions = vacuum_cleaner(vacuum_location, current_status)
+    environment[vacuum_location if "Clean" not in actions[0] else actions[1][-1]] = new_status
+    print("Actions:", actions)
+    print("Updated Environment:", environment)
+
+print("Final Environment:", environment)
